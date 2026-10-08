@@ -1,0 +1,26 @@
+{
+  "id": "cutout",
+  "name": "Cut-Out",
+  "author": [
+    "Bunnet",
+    "cloudzXIII",
+    "EricTheToon",
+    "Noodlemire",
+    "0kronix",
+    "Feli"
+  ],
+  "description": "An addon for Abandonia!",
+  "prefix": "cutout",
+  "main_file": "cutout.lua",
+  "priority": -1,
+  "display_name": "Cut-Out",
+  "badge_text_colour": "ffffff",
+  "badge_colour": "5d5e8d",
+  "version": "0.0.1",
+  "dependencies": [
+    "Steamodded (>=26.829.0)",
+    "abandonia"
+  ],
+  "icon_path": "mod_icon.png",
+  "icon_width": 32
+}

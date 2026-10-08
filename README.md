@@ -5,8 +5,7 @@ A Balatro mod founded by Bunnet adding content that doesn't fit the base mod!
 # Additions
 
 As of now, Cut-Out currently adds
-* 700+ Jokers
-* with more to come!
+* nothing...?
 
 # Installation
 - Requires [Abandonia](https://github.com/cloudzXIII/Abandonia)

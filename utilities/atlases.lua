@@ -1,3 +1,13 @@
+-- Jokers
+for i = 1, 1 do
+  SMODS.Atlas({
+    key = "CUTOUTJokerSheet" .. i,
+    path = "jokers/jokers" .. i .. ".png",
+    px = 71,
+    py = 95,
+  })
+end
+
 --#region Ranks
 SMODS.Atlas({
   key = "Ranks",

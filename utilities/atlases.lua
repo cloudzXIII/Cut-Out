@@ -38,3 +38,20 @@ SMODS.Atlas({
   px = 71,
   py = 95,
 })
+
+-- Auras
+SMODS.Atlas({
+  key = "alt",
+  path = "jokers/alt.png",
+  px = 71,
+  py = 95,
+})
+
+-- Vouchers
+SMODS.Atlas({
+  key = "Vouchers",
+  path = "vouchers.png",
+  px = 71,
+  py = 95,
+})
+

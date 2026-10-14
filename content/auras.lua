@@ -1,4 +1,4 @@
-if (SMODS.Mods["Fortlatro"] or {}).can_load then
+
 
     -- Any chips this card would give are also given as mult
     do
@@ -187,5 +187,3 @@ if (SMODS.Mods["Fortlatro"] or {}).can_load then
             artist = "spikeberd",
         },
     }
-
-end

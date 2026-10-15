@@ -131,28 +131,24 @@ SMODS.Rank {
 
 SMODS.Rank:take_ownership('10',
   {
-    next = { 'cutout_Sire' },
-    straight_edge = false
+    next = { 'Jack', 'abn_11', 'cutout_Sire' },
   }, true
 )
 
 SMODS.Rank:take_ownership('Jack',
   {
-    next = { 'cutout_Grace' },
-    straight_edge = false
+    next = { 'Queen', 'cutout_Grace' },
   }, true
 )
 
 SMODS.Rank:take_ownership('Queen',
   {
-    next = { 'cutout_Cavalier' },
-    straight_edge = false
+    next = { 'King', 'cutout_Cavalier' },
   }, true
 )
 
 SMODS.Rank:take_ownership('Ace',
   {
-    next = { 'cutout_AA' },
-    straight_edge = false
+    next = { '2', 'abn_11', 'cutout_AA' },
   }, true
 )

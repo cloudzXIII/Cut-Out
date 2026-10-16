@@ -1,3 +1,10 @@
+local redeem_return_ante = function(self, voucher)
+	local ante_change = -G.GAME.round_resets.ante + voucher.ability.extra.return_ante
+	ease_ante(ante_change)
+	G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante or G.GAME.round_resets.ante
+	G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante + ante_change
+end
+
 SMODS.Voucher {
     key = 'RoyalEmblem',
     loc_txt = {
@@ -233,5 +240,31 @@ SMODS.Voucher {
 
   abn_artist_credits = {
     artist = "0kronix and Ginger",
+  },
+}
+
+SMODS.Voucher {
+  key = 'executioner_switch',
+  atlas = 'Vouchers',
+  pos = { x = 0, y = 2 },
+  config = {extra = {return_ante = -1, mayhem = -1}},
+  loc_vars = function(self, info_queue, voucher)
+    return { vars = { voucher.ability.extra.return_ante, voucher.ability.extra.mayhem } }
+  end,
+
+  redeem = redeem_return_ante,
+  calculate = function(self, voucher, context)
+	if context.joker_type_destroyed and context.card.ability.set == "Joker" then
+	  return {
+		dollars = context.card.sell_cost,
+		func = function()
+		  ABN.mayhem(voucher.ability.extra.mayhem)
+		end
+	  }
+	end
+  end,
+
+  abn_artist_credits = {
+    artist = "0kronix",
   },
 }

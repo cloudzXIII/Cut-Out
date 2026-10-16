@@ -20,7 +20,39 @@ SMODS.Edition{
 			local scoring = pseudorandom_element(card.edition.extra, "e_cutout_abstract")
 			return {[scoring.type] = pseudorandom("e_cutout_abstract", scoring.range[1], scoring.range[2])}
 		end
-	end
+	end,
+	abn_artist_credits = {
+		artist = "Dogg-Fly"
+	},
+}
+
+SMODS.Shader{
+	key = "amp",
+	path = "amp.fs"
+}
+
+SMODS.Edition{
+	key = "amp",
+	shader = "amp",
+	config = {extra = {amp = 0, mod = 0}},
+	loc_vars = function(self, info_queue, card)
+		local cae = card.edition.extra
+		return {vars = {cae.amp, cae.mod}}
+	end,
+	calculate = function(self, card, context)
+		if context.setting_blind then
+			card.edition.extra.amp = 0
+			card.edition.extra.mod = 0
+		elseif (context.post_joker or (context.main_scoring and context.cardarea == G.play)) and (card.edition.extra.amp ~= 0 or card.edition.extra.mod ~= 0) then
+			return {amp = card.edition.extra.amp, modulate = card.edition.extra.mod}
+		elseif context.after then
+			card.edition.extra.amp = G.GAME.hands[context.scoring_name].chips
+			card.edition.extra.mod = G.GAME.hands[context.scoring_name].mult
+		end
+	end,
+	abn_artist_credits = {
+		artist = "Dogg-Fly"
+	},
 }
 
 SMODS.Shader{
@@ -64,7 +96,10 @@ SMODS.Edition{
 				return ret
 			end
 		end
-	end
+	end,
+	abn_artist_credits = {
+		artist = "Dogg-Fly"
+	},
 }
 
 SMODS.Shader{
@@ -96,5 +131,47 @@ SMODS.Edition{
 				end
 			})
 		end
-	end
+	end,
+	abn_artist_credits = {
+		artist = "Dogg-Fly"
+	},
 }
+
+SMODS.Shader{
+	key = "inverted",
+	path = "inverted.fs"
+}
+
+SMODS.Edition{
+	key = "inverted",
+	shader = "inverted",
+}
+
+local old_calc = SMODS.calculate_effect
+function SMODS.calculate_effect(effect, scored_card, from_edition, pre_jokers)
+	if scored_card and scored_card.edition and scored_card.edition.key == "e_cutout_inverted" then
+		local new_effect = {}
+		for k, v in pairs(effect) do
+			if CUTOUT.mult_to_chips[k] then
+				new_effect[CUTOUT.mult_to_chips[k]] = v
+			elseif CUTOUT.chips_to_mult[k] then
+				new_effect[CUTOUT.chips_to_mult[k]] = v
+			else
+				new_effect[k] = v
+			end
+		end
+		effect = new_effect
+		if effect.message then
+			local str = effect.message
+			str = str:gsub("Chips", "__CUTOUT:Temp")
+			str = str:gsub("chips", "__CUTOUT:temp")
+			str = str:gsub("Mult", "Chips")
+			str = str:gsub("mult", "chips")
+			str = str:gsub("__CUTOUT:Temp", "Mult")
+			str = str:gsub("__CUTOUT:temp", "mult")
+			effect.message = str
+		end
+	end
+
+	return old_calc(effect, scored_card, from_edition, pre_jokers)
+end

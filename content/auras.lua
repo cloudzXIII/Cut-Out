@@ -5,12 +5,6 @@
         local scie_alter = SMODS.calculate_individual_effect
         local eval_card_alter = eval_card
 
-        local chip_to_mult = {
-            chips = 'mult',
-            h_chips = 'h_mult',
-            chip_mod = 'mult_mod',
-        }
-
         local function has_aura(c)
             return c and c.ability and c.ability.cutout_Alter_Aura
         end
@@ -24,7 +18,7 @@
         function SMODS.calculate_individual_effect(effect, scored_card, key, amount, from_edition)
             local ret = scie_alter(effect, scored_card, key, amount, from_edition)
 
-            local mult_key = chip_to_mult[key]
+            local mult_key = CUTOUT.chips_to_mult[key]
             if mult_key and type(amount) == 'number' and has_aura(scored_card) and not is_joker(scored_card) then
                 scie_alter(effect, scored_card, mult_key, amount, from_edition)
             end
@@ -34,7 +28,7 @@
         -- Walk an effect table (and nested `extra` tables), adding mult alongside chips
         local function add_mult(eff, depth)
             if type(eff) ~= 'table' or depth > 8 then return end
-            for chip_key, mult_key in pairs(chip_to_mult) do
+            for chip_key, mult_key in pairs(CUTOUT.chips_to_mult) do
                 local v = eff[chip_key]
                 if type(v) == 'number' then
                     eff[mult_key] = (type(eff[mult_key]) == 'number' and eff[mult_key] or 0) + v

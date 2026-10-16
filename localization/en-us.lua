@@ -1,5 +1,3 @@
-local voucher_return_to_ante = "Return to Ante {C:attention}#1#"
-
 return {
   descriptions = {
     Edition = {
@@ -44,51 +42,6 @@ return {
         text = {
           "Any from of {C:mult}Mult{} provided by this card",
           "is swapped for {C:chips}Chips{}, and vice versa"
-        }
-      },
-    },
-    Voucher = {
-      v_cutout_executioner_switch = {
-        name = "Executioner Switch",
-        text = {
-          voucher_return_to_ante,
-          "Whenever a joker is destroyed,",
-          "gain {C:money}${} equal to its sell value",
-          "and lower Mayhem by {C:abn_mayhem_dark}#2#"
-        }
-      },
-      v_cutout_clockspin = {
-        name = "Clockspin",
-        text = {
-          voucher_return_to_ante,
-          "{C:abn_mayhem_dark}-#2#{} Mayhem when showdown blind defeated",
-          "Each {C:attention}Big Blind{} must be defeated twice"
-        }
-      },
-      v_cutout_amperage_meter = {
-        name = "Amperage Meter",
-        text = {
-          voucher_return_to_ante,
-          "{C:abn_amperage}+#2#{} Amperage and {C:abn_mayhem_dark}+#3#{} Mayhem",
-          "per {C:inactive}vanilla{} joker"
-        }
-      },
-      v_cutout_illegal_glove = {
-        name = "Illegal Glove",
-        text = {
-          voucher_return_to_ante,
-        }
-      },
-      v_cutout_backdoor_draw = {
-        name = "Backdoor Draw",
-        text = {
-          voucher_return_to_ante,
-        }
-      },
-      v_cutout_pheromone_perfume = {
-        name = "Pheromone Perfume",
-        text = {
-          voucher_return_to_ante,
         }
       },
     },

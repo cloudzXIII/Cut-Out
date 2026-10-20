@@ -1,0 +1,17 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 0
+
+# Show the evolution progress tooltip on evolving jokers
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "local loc_vars = {}"
+position = "before"
+payload = """
+if ABN and ABN.evolutions and ABN.evolutions[_c.key] and ABN.tooltip_card and ABN.tooltip_card.config and ABN.tooltip_card.config.center and ABN.tooltip_card.config.center.key == _c.key then
+    info_queue[#info_queue + 1] = ABN.evo_tooltip(_c)
+end
+"""
+match_indent = true

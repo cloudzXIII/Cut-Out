@@ -20,6 +20,7 @@ SMODS.Joker {
     pos = { x = 0, y = 2 },
     blueprint_compat = true,
     perishable_compat = false,
+	discovered = true,
     config = {
         extra = {
             odds = 7,

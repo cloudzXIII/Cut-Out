@@ -1,6 +1,6 @@
 ABN = ABN or {}
 ABN.evolutions = {}
-
+ 
 function ABN.add_evolution(key, evo, amount, opts)
     opts = opts or {}
     ABN.evolutions[key] = {
@@ -14,19 +14,19 @@ function ABN.add_evolution(key, evo, amount, opts)
         loc = opts.loc,
     }
 end
-
+ 
 function ABN.get_evolution(card)
     if not (card and card.config and card.config.center and card.ability) then return nil end
     if card.ability.set ~= 'Joker' then return nil end
     return ABN.evolutions[card.config.center.key]
 end
-
+ 
 function Card:abn_init_evo()
     if not self.ability.abn_evo and ABN.get_evolution(self) then
         self.ability.abn_evo = { progress = 0, ready = false }
     end
 end
-
+ 
 function Card:abn_add_progress(n)
     local evo = ABN.get_evolution(self)
     if not evo then return end
@@ -39,7 +39,7 @@ function Card:abn_add_progress(n)
             { message = localize('k_abn_evo_ready'), colour = G.C.GOLD })
     end
 end
-
+ 
 function Card:abn_can_evolve()
     local evo = ABN.get_evolution(self)
     if not evo or self.debuff or self.area ~= G.jokers then return false end
@@ -47,7 +47,7 @@ function Card:abn_can_evolve()
     local state = self.ability.abn_evo
     return (state and state.ready) and true or false
 end
-
+ 
 -- Feed every joker's contexts to its evolution's progress function
 local calculate_joker_ref = Card.calculate_joker
 function Card:calculate_joker(context)
@@ -68,23 +68,23 @@ function Card:calculate_joker(context)
     end
     return ret, post
 end
-
+ 
 local add_to_deck_ref = Card.add_to_deck
 function Card:add_to_deck(from_debuff)
     add_to_deck_ref(self, from_debuff)
     self:abn_init_evo()
 end
-
+ 
 function Card:abn_evolve()
     local evo = ABN.get_evolution(self)
     if not (evo and self:abn_can_evolve()) then return end
-
+ 
     local area = self.area
     stop_use()
     G.CONTROLLER.locks.abn_evolve = true
     if self.children.use_button then self.children.use_button:remove(); self.children.use_button = nil end
     if self.children.sell_button then self.children.sell_button:remove(); self.children.sell_button = nil end
-
+ 
     G.GAME.abn_evolution_total = (G.GAME.abn_evolution_total or 0) + 1
     SMODS.calculate_context({
         abn_evolution = true,
@@ -92,14 +92,14 @@ function Card:abn_evolve()
         abn_evolved_from = evo.key,
         abn_evolved_to = evo.evo,
     })
-
+ 
     -- Snapshot what must survive set_ability
     local kept = {}
     for _, k in ipairs({ 'eternal', 'perishable', 'perish_tally', 'rental', 'pinned' }) do
         kept[k] = self.ability[k]
     end
     for k in pairs(SMODS.Stickers or {}) do kept[k] = self.ability[k] end
-
+ 
     local carried = {}
     for _, k in ipairs(evo.carry or {}) do
         carried[k] = {
@@ -107,7 +107,7 @@ function Card:abn_evolve()
             extra = type(self.ability.extra) == 'table' and self.ability.extra[k] or nil,
         }
     end
-
+ 
     -- Old values handed to on_evolve
     local old = {
         x_mult = self.ability.x_mult,
@@ -116,22 +116,22 @@ function Card:abn_evolve()
         t_chips = self.ability.t_chips,
         extra = type(self.ability.extra) == 'table' and copy_table(self.ability.extra) or self.ability.extra,
     }
-
+ 
     G.E_MANAGER:add_event(Event({ trigger = 'after', delay = 0.2, func = function()
         play_sound('whoosh1')
         self:juice_up(0.3, 0.4)
         return true
     end }))
-
+ 
     G.E_MANAGER:add_event(Event({ trigger = 'after', delay = 0.3, func = function()
         self:start_materialize({ G.C.GOLD }, true)
         play_sound('explosion_release1')
         self:juice_up(0.3, 0.5)
-
+ 
         local was_in_deck = self.added_to_deck
         if was_in_deck then self:remove_from_deck(true) end
         self:set_ability(G.P_CENTERS[evo.evo], true)
-
+ 
         for k, v in pairs(kept) do
             if v ~= nil then self.ability[k] = v end
         end
@@ -139,25 +139,26 @@ function Card:abn_evolve()
             if v.top ~= nil then self.ability[k] = v.top end
             if v.extra ~= nil and type(self.ability.extra) == 'table' then self.ability.extra[k] = v.extra end
         end
+        self.ability.abn_evolved = true
         if evo.on_evolve then evo.on_evolve(self, old) end
         if was_in_deck and not self.added_to_deck then self:add_to_deck() end
-
+ 
         if area and area.remove_from_highlighted then area:remove_from_highlighted(self) end
         card_eval_status_text(self, 'extra', nil, nil, nil,
             { message = localize('k_abn_evolved'), colour = G.C.GOLD })
         return true
     end }))
-
+ 
     G.E_MANAGER:add_event(Event({ trigger = 'after', delay = 0.3, func = function()
         G.CONTROLLER.locks.abn_evolve = nil
         return true
     end }))
 end
-
+ 
 G.FUNCS.abn_evolve = function(e)
     e.config.ref_table:abn_evolve()
 end
-
+ 
 G.FUNCS.abn_can_evolve = function(e)
     if (G.play and #G.play.cards > 0)
         or G.CONTROLLER.locked
@@ -170,7 +171,7 @@ G.FUNCS.abn_can_evolve = function(e)
         e.config.button = 'abn_evolve'
     end
 end
-
+ 
 local use_and_sell_buttons_ref = G.UIDEF.use_and_sell_buttons
 function G.UIDEF.use_and_sell_buttons(card)
     local retval = use_and_sell_buttons_ref(card)
@@ -197,7 +198,7 @@ function G.UIDEF.use_and_sell_buttons(card)
     end
     return retval
 end
-
+ 
 local card_update_ref = Card.update
 function Card:update(dt)
     card_update_ref(self, dt)
@@ -212,13 +213,13 @@ function Card:update(dt)
         end
     end
 end
-
+ 
 local gen_ability_table_ref = Card.generate_UIBox_ability_table
 function Card:generate_UIBox_ability_table(vars_only)
     ABN.tooltip_card = self
     return gen_ability_table_ref(self, vars_only)
 end
-
+ 
 function ABN.evo_tooltip(_c)
     local evo = ABN.evolutions[_c.key]
     if not evo then return end
@@ -229,8 +230,8 @@ function ABN.evo_tooltip(_c)
     end
     return { key = 'abn_evo_' .. _c.key, set = 'Other', vars = { math.min(progress, evo.amount), evo.amount } }
 end
-
-
+ 
+ 
 local function abn_parse_lines(lines)
     local parsed = {}
     for _, line in ipairs(type(lines) == 'table' and lines or { lines }) do
@@ -238,7 +239,7 @@ local function abn_parse_lines(lines)
     end
     return parsed
 end
-
+ 
 local init_localization_ref = init_localization
 function init_localization()
     init_localization_ref()
@@ -246,6 +247,18 @@ function init_localization()
     loc.misc.dictionary.b_abn_evolve = "EVOLVE"
     loc.misc.dictionary.k_abn_evolved = "Evolved!"
     loc.misc.dictionary.k_abn_evo_ready = "Ready!"
+    loc.descriptions.Other.abn_evolved_info = {
+        name = "Evolved",
+        text = {
+            "This {C:attention}Joker{} has",
+            "{C:attention}Evolved{}",
+        },
+        name_parsed = abn_parse_lines("Evolved"),
+        text_parsed = abn_parse_lines({
+            "This {C:attention}Joker{} has",
+            "{C:attention}Evolved{}",
+        }),
+    }
     for key, evo in pairs(ABN.evolutions) do
         if evo.loc then
             loc.descriptions.Other['abn_evo_' .. key] = {
@@ -256,6 +269,23 @@ function init_localization()
             }
         end
     end
+end
+ 
+-- Boxed "Evolved" tooltip shown next to the hover popup of Jokers that have evolved
+local generate_card_ui_ref = generate_card_ui
+function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, hide_desc, main_start, main_end, card)
+    local first_pass = full_UI_table == nil
+    local ret = generate_card_ui_ref(_c, full_UI_table, specific_vars, card_type, badges, hide_desc, main_start, main_end, card)
+    if first_pass and type(ret) == 'table' and ret.info and _c and _c.set == 'Joker' then
+        local target = card
+        if not target and ABN.tooltip_card and ABN.tooltip_card.config and ABN.tooltip_card.config.center == _c then
+            target = ABN.tooltip_card
+        end
+        if target and target.ability and target.ability.abn_evolved then
+            generate_card_ui_ref({ key = 'abn_evolved_info', set = 'Other', vars = {} }, ret)
+        end
+    end
+    return ret
 end
 
 ---------------------------------------------------------------------------
@@ -284,5 +314,60 @@ ABN.add_evolution('j_glass', 'j_cutout_reflective_joker', 2, {
     end,
     on_evolve = function(card, old)
         card.ability.extra.xmult = old.x_mult or 1
+    end,
+})
+
+-- Spare Trousers -> Improvise Outfit: score Two Pair 3 times in the same blind
+ABN.add_evolution('j_trousers', 'j_cutout_improvise_outfit', 3, {
+    per_blind = true,
+    loc = {
+        name = "Evolution",
+        text = {
+            "Score {C:attention}Two Pair{}",
+			"{C:attention}#2#{} times in the same blind",
+            "{C:inactive}(Currently {C:attention}#1#{C:inactive}/#2#)",
+        },
+    },
+    progress = function(card, context)
+        if context.before and context.scoring_name == 'Two Pair' then
+            return 1
+        end
+    end,
+    on_evolve = function(card, old)
+        card.ability.extra.mult = old.mult or 0
+    end,
+})
+
+-- Steel Joker -> Iron Joker: score 5 Steel Cards
+ABN.add_evolution('j_steel_joker', 'j_cutout_iron_joker', 5, {
+    loc = {
+        name = "Evolution",
+        text = {
+            "Play {C:attention}#2#{} {C:dark_edition}Steel Cards",
+            "{C:inactive}(Currently {C:attention}#1#{C:inactive}/#2#)",
+        },
+    },
+    progress = function(card, context)
+        if context.individual and context.cardarea == G.play
+            and SMODS.has_enhancement(context.other_card, 'm_steel') then
+            return 1
+        end
+    end,
+})
+
+-- Stone Joker -> Concrete Joker: score 5 Stone Cards
+ABN.add_evolution('j_stone', 'j_cutout_concrete_joker', 5, {
+    loc = {
+        name = "Evolution",
+        text = {
+            "Score {C:attention}#2#{} {C:dark_edition}Stone Cards",
+            "{C:inactive}Currently: {C:attention}#1#{C:inactive}/#2#",
+        },
+    },
+    progress = function(card, context)
+        if context.individual and context.cardarea == G.play
+            and SMODS.has_enhancement(context.other_card, 'm_stone') then
+            return 1
+        end
     end,
 })

@@ -11,6 +11,9 @@ SMODS.Edition{
 		{type = "modulate", range = {0, 23}},
 		{type = "score", range = {0, 500}},
 	}},
+	in_shop = true,
+	weight = 1.4,
+	extra_cost = 4.3,
 	loc_vars = function(self, info_queue, card)
 		local cae = card.edition.extra
 		return {vars = {cae[1].range[1], cae[1].range[2], cae[2].range[1], cae[2].range[2], cae[3].range[1], cae[3].range[2]}}
@@ -31,10 +34,13 @@ SMODS.Shader{
 	path = "amp.fs"
 }
 
-SMODS.Edition{
+SMODS.Edition{ --Transduced
 	key = "amp",
 	shader = "amp",
 	config = {extra = {amp = 0, mod = 0}},
+	in_shop = true,
+	weight = 2.1,
+	extra_cost = 3,
 	loc_vars = function(self, info_queue, card)
 		local cae = card.edition.extra
 		return {vars = {cae.amp, cae.mod}}
@@ -63,6 +69,9 @@ SMODS.Shader{
 SMODS.Edition{
 	key = "distortion",
 	shader = "distortion",
+	in_shop = true,
+	weight = 1.5,
+	extra_cost = 2,
 	config = {extra = {power = 2}},
 	loc_vars = function(self, info_queue, card)
 		return {vars = {card.edition.extra.power}}
@@ -107,9 +116,12 @@ SMODS.Shader{
 	path = "energy.fs"
 }
 
-SMODS.Edition{
+SMODS.Edition{ --Volcanic
 	key = "energy",
 	shader = "energy",
+	in_shop = true,
+	weight = 1.3,
+	extra_cost = 3,
 	config = {extra = {extra_value = 1, pc_start = 1}},
 	loc_vars = function(self, info_queue, card)
 		return {vars = {card.edition.extra.extra_value, card.edition.extra.pc_start, card.sell_cost}}
@@ -145,6 +157,9 @@ SMODS.Shader{
 SMODS.Edition{
 	key = "inverted",
 	shader = "inverted",
+	in_shop = true,
+	weight = 2,
+	extra_cost = 3,
 }
 
 local old_calc = SMODS.calculate_effect

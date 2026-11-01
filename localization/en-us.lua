@@ -11,7 +11,7 @@ return {
         }
       },
       e_cutout_amp = {
-        name = "Amp",
+        name = "Transduced",
         text = {
           "Based on the hand played previously",
           "this round, this gives its base",
@@ -27,7 +27,7 @@ return {
         }
       },
       e_cutout_energy = {
-        name = "Energy",
+        name = "Volcanic",
         text = {
           "Gives {C:gold}Ascension Power",
           "equal to {C:money}sell value{},",
@@ -38,6 +38,51 @@ return {
         }
       },
       e_cutout_inverted = {
+        name = "Inverted",
+        text = {
+          "Any from of {C:mult}Mult{} provided by this card",
+          "is swapped for {C:chips}Chips{}, and vice versa"
+        }
+      },
+    },
+    abn_BlindEdition = {
+      ble_cutout_abstract = {
+        name = "Abstract", --Abstract Blind Editions possibility for next Chips, Mult, Amperage or Modulate to give 0
+        text = {
+          "Randomly gives one of:",
+          "{C:abn_amperage}+#1#-#2#{} Amperage",
+          "{C:abn_modulate}+#3#-#4#{} Modulate",
+          "{C:purple}+#5#-#6#{} Score"
+        }
+      },
+      ble_cutout_amp = {
+        name = "Transduced", --Transduced Blind Edition any Amperage is reduce to 0
+        text = {
+          "Based on the hand played previously",
+          "this round, this gives its base",
+          "{C:chips}Chips{} as {C:abn_amperage}Amperate{} and {C:mult}Mult{} as {C:abn_modulate}Modulate{}",
+          "{C:inactive}(Currently: {C:abn_amperage}+#1#{C:inactive} Amperage, {C:abn_modulate}+#2#{C:inactive} Modulate)"
+        }
+      },
+      ble_cutout_distortion = {
+        name = "Distortion",
+        text = {
+          "Round {C:chips}Chips{}, {C:mult}Mult{}, and {C:gold}Ascension Power",
+          "down to the nearest power of {C:attention}#1#",
+        }
+      },
+      ble_cutout_energy = {
+        name = "Volcanic",
+        text = {
+          "Gives {C:gold}Ascension Power",
+          "equal to {C:money}sell value{},",
+          "which increases by {C:money}$#1#",
+          "with each blind beaten",
+          "{C:inactive}(Currently: {C:gold}+#3# {C:inactive}Ascension Power)",
+          "{C:inactive}(Playing cards start at {C:money}$#2#{C:inactive})",
+        }
+      },
+      ble_cutout_inverted = {
         name = "Inverted",
         text = {
           "Any from of {C:mult}Mult{} provided by this card",

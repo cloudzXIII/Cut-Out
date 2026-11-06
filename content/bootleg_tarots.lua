@@ -531,6 +531,9 @@ SMODS.Consumable {
         }
     },
     config = { extra = { cards = 3 } },
+	hidden = true,
+    soul_set = "Tarot",
+    soul_rate = 0.3,
 
     abn_artist_credits = {
         artist = "Vega"

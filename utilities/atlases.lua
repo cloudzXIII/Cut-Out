@@ -55,3 +55,10 @@ SMODS.Atlas({
   py = 95,
 })
 
+--Evolutions
+SMODS.Atlas({
+  key = "CUTOUTJokerEvolutions",
+  path = "jokers/evolution.png",
+  px = 71,
+  py = 95,
+})

@@ -130,7 +130,7 @@
         atlas = 'Microverse',
         pos = {x = 0, y = 0},
         loc_txt = {
-            name = 'Microverse',
+            name = 'Quantum Flux',
             text = {
                 'Apply the {C:purple}Alter Aura{}',
                 'to {C:attention}#1#{} selected {C:attention}Card{}/{C:attention}Joker{}'

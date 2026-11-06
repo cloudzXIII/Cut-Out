@@ -3,6 +3,7 @@ SMODS.ConsumableType{
     collection_rows = {5,5},
     primary_colour = HEX("8372da"),
     secondary_colour = HEX("8372da"),
+	text_colour = HEX("ddc4ff"),
     loc_txt = {
         collection = 'Bootleg Tarots',
         name = 'Bootleg Tarots',

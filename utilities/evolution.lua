@@ -371,3 +371,96 @@ ABN.add_evolution('j_stone', 'j_cutout_concrete_joker', 5, {
         end
     end,
 })
+
+-- Joker -> Improved Joker: defeat a Boss Blind when the score catches fire
+ABN.add_evolution('j_joker', 'j_cutout_improved_joker', 1, {
+    loc = {
+        name = "Evolution",
+        text = {
+            "Defeat a {C:attention}Boss Blind{}",
+            "when the score catches {C:red}fire{}",
+            "{C:inactive}(Currently {C:attention}#1#{C:inactive}/#2#)",
+        },
+    },
+    progress = function(card, context)
+        local state = card.ability.abn_evo
+ 
+        if context.final_scoring_step and G.GAME.blind and G.GAME.blind.boss then
+            local hand_score = SMODS.calculate_round_score and SMODS.calculate_round_score()
+            if hand_score >= G.GAME.blind.chips then
+                state.on_fire = true
+            end
+        end
+ 
+        if context.end_of_round and context.main_eval and G.GAME.blind and G.GAME.blind.boss and state.on_fire then
+            state.on_fire = false
+            return 1
+        end
+    end,
+})
+
+-- Hanging Chad -> Clean Chad: retrigger a card with a Modded Rank
+ABN.add_evolution('j_hanging_chad', 'j_cutout_clean_chad', 1, {
+    loc = {
+        name = "Evolution",
+        text = {
+            "Retrigger a card with a {C:attention}Modded Rank{}",
+            "{C:inactive}(Currently {C:attention}#1#{C:inactive}/#2#)",
+        },
+    },
+    progress = function(card, context)
+        if context.repetition and context.cardarea == G.play and context.scoring_hand
+            and context.other_card == context.scoring_hand[1]
+            and not SMODS.has_no_rank(context.other_card) then
+            local vanilla_ranks = {
+                ['2'] = true, ['3'] = true, ['4'] = true, ['5'] = true, ['6'] = true, ['7'] = true, ['8'] = true,
+                ['9'] = true, ['10'] = true, Jack = true, Queen = true, King = true, Ace = true,
+            }
+            if not vanilla_ranks[context.other_card.base.value] then
+                return 1
+            end
+        end
+    end,
+})
+
+-- Hack -> Stand-Up: score a hand with a scoring 2, 3, 4 and 5
+ABN.add_evolution('j_hack', 'j_cutout_stand_up', 1, {
+    loc = {
+        name = "Evolution",
+        text = {
+            "Score a hand with a scoring",
+            "{C:attention}2{}, {C:attention}3{}, {C:attention}4{} and {C:attention}5{}",
+            "{C:inactive}(Currently {C:attention}#1#{C:inactive}/#2#)",
+        },
+    },
+    progress = function(card, context)
+        if context.before and context.scoring_hand then
+            local found_ranks = {}
+            for _, scored_card in ipairs(context.scoring_hand) do
+                if not SMODS.has_no_rank(scored_card) then
+                    found_ranks[scored_card:get_id()] = true
+                end
+            end
+ 
+            if found_ranks[2] and found_ranks[3] and found_ranks[4] and found_ranks[5] then
+                return 1
+            end
+        end
+    end,
+})
+
+-- Gros Michel -> Musa Paradisiaca: clear the Ante
+ABN.add_evolution('j_gros_michel', 'j_cutout_musa_paradisiaca', 1, {
+    loc = {
+        name = "Evolution",
+        text = {
+            "Clear the {C:attention}Ante{}",
+            "{C:inactive}(Currently {C:attention}#1#{C:inactive}/#2#)",
+        },
+    },
+    progress = function(card, context)
+        if context.end_of_round and context.main_eval and G.GAME.blind and G.GAME.blind.boss then
+            return 1
+        end
+    end,
+})

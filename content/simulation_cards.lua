@@ -6,6 +6,10 @@ SMODS.ConsumableType{
     loc_txt = {
         collection = 'Simulation Cards',
         name = 'Simulation Cards',
+        undiscovered = {
+            name = 'Not Discovered',
+            text = {"Purchase or use", "this card in an", "unseeded run to", "learn what it does"}
+        }
     },
     shop_rate = 0,
 }

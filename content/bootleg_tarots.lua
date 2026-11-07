@@ -7,6 +7,10 @@ SMODS.ConsumableType{
     loc_txt = {
         collection = 'Bootleg Tarots',
         name = 'Bootleg Tarots',
+        undiscovered = {
+            name = 'Not Discovered',
+            text = {"Purchase or use", "this card in an", "unseeded run to", "learn what it does"}
+        }
     },
     shop_rate = 0,
 }

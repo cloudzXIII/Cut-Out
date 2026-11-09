@@ -37,7 +37,7 @@ SMODS.Consumable {
     config = { extra = { cards = 2 } },
 	hidden = true,
     soul_set = "Tarot",
-    soul_rate = 0.3,
+    soul_rate = 0.03,
 
     abn_artist_credits = {
         artist = "NiceCream"
@@ -149,7 +149,7 @@ SMODS.Consumable {
     config = { extra = { cards = 3 } },
 	hidden = true,
     soul_set = "Tarot",
-    soul_rate = 0.3,
+    soul_rate = 0.03,
 	
 	abn_artist_credits = {
         artist = "NiceCream"
@@ -398,7 +398,7 @@ SMODS.Consumable {
     config = { extra = { cards = 3 } },
 	hidden = true,
     soul_set = "Tarot",
-    soul_rate = 0.3,
+    soul_rate = 0.03,
 
     abn_artist_credits = {
         artist = "Vega"
@@ -538,7 +538,7 @@ SMODS.Consumable {
     config = { extra = { cards = 3 } },
 	hidden = true,
     soul_set = "Tarot",
-    soul_rate = 0.3,
+    soul_rate = 0.03,
 
     abn_artist_credits = {
         artist = "Vega"

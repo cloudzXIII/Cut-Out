@@ -16,7 +16,7 @@ do
     -- Walk an effect table (and nested `extra` tables), adding mult alongside chips
     local function add_mult(eff, depth)
         if type(eff) ~= 'table' or depth > 8 then return end
-        for chip_key, mult_key in pairs(CUTOUT.chips_to_mult) do
+        for chip_key, mult_key in pairs(ABN.chips_to_mult) do
             local v = eff[chip_key]
             if Spectrallib.is_number(v) then
                 eff[mult_key] = (Spectrallib.is_number(eff[mult_key]) and eff[mult_key] or 0) + v
@@ -89,8 +89,8 @@ SMODS.Sticker {
 		if context.abn_post_effect and (not card.playing_card and (context.card == card or context.abn_post_effect.card == card or context.abn_post_effect.juice_card == card)) then
 			local alter_effect = {}
 			for k, v in pairs(context.abn_post_effect) do
-				if CUTOUT.chips_to_mult[k] then
-					alter_effect[CUTOUT.chips_to_mult[k]] = v
+				if ABN.chips_to_mult[k] then
+					alter_effect[ABN.chips_to_mult[k]] = v
 				end
 			end
 			if next(alter_effect) then

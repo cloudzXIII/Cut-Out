@@ -167,10 +167,10 @@ function SMODS.calculate_effect(effect, scored_card, from_edition, pre_jokers)
 	if scored_card and scored_card.edition and scored_card.edition.key == "e_cutout_inverted" then
 		local new_effect = {}
 		for k, v in pairs(effect) do
-			if CUTOUT.mult_to_chips[k] then
-				new_effect[CUTOUT.mult_to_chips[k]] = v
-			elseif CUTOUT.chips_to_mult[k] then
-				new_effect[CUTOUT.chips_to_mult[k]] = v
+			if ABN.mult_to_chips[k] then
+				new_effect[ABN.mult_to_chips[k]] = v
+			elseif ABN.chips_to_mult[k] then
+				new_effect[ABN.chips_to_mult[k]] = v
 			else
 				new_effect[k] = v
 			end

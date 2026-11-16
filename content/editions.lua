@@ -124,7 +124,7 @@ SMODS.Edition{ --Volcanic
 	extra_cost = 3,
 	config = {extra = {extra_value = 1, pc_start = 1}},
 	loc_vars = function(self, info_queue, card)
-		return {vars = {card.edition.extra.extra_value, card.edition.extra.pc_start, card.sell_cost}}
+		return {vars = {card.edition.extra.extra_value, card.edition.extra.pc_start, card.sell_cost or 1}}
 	end,
 	calculate = function(self, card, context)
 		if context.post_joker or (context.main_scoring and context.cardarea == G.play) then

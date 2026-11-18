@@ -94,7 +94,7 @@ return {
   misc = {
     labels = {
       cutout_abstract = "Abstract",
-      cutout_amp = "Amp",
+      cutout_amp = "Transduced",
       cutout_distortion = "Distortion",
       cutout_energy = "Energy",
       cutout_inverted = "Inverted",

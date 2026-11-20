@@ -34,7 +34,7 @@ SMODS.Joker {
     end,
  
     calculate = function(self, card, context) 
-        if context.post_trigger and context.other_card ~= card then
+        if context.post_trigger and context.other_ret.jokers and context.other_card ~= card then
             return {
                 mult = card.ability.extra.mult,
                 card = card

@@ -98,6 +98,31 @@ return {
       cutout_distortion = "Distortion",
       cutout_energy = "Energy",
       cutout_inverted = "Inverted",
-    }
+    },
+    poker_hands = {
+      cutout_Blaze = "Blaze",
+      cutout_RoyalCourt = "Royal Court",
+      ["cutout_Spectrum Blaze"] = "Spectrum Blaze",
+      ["cutout_Voided Blaze"] = "Voided Blaze",
+      ["cutout_Photonic Spectrum"] = "Photonic Spectrum",
+    },
+    poker_hand_descriptions = {
+      cutout_Blaze = {
+        "Five different face ranks",
+      },
+      cutout_RoyalCourt = {
+        "A Straight made entirely of face cards",
+      },
+      ["cutout_Spectrum Blaze"] = {
+        "A hand containing a Spectrum and a Blaze",
+      },
+      ["cutout_Voided Blaze"] = {
+        "A hand containing a Spectrum and a Blaze, along",
+        "with at least one additional suitless face card",
+      },
+      ["cutout_Photonic Spectrum"] = {
+        "Five Double Aces, each with a different suit",
+      },
+    },
   }
 }

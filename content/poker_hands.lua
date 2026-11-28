@@ -64,17 +64,19 @@ SMODS.PokerHand({
 
 		local rc_parts = {}
 		for _, part in ipairs(parts._straight) do
-			local all_faces = true
+			local face_part = {}
 			for _, card in ipairs(part) do
-				if not card:is_face() then
-					all_faces = false
-					break
+				if card:is_face() then
+					table.insert(face_part, card)
 				end
 			end
-			if all_faces then table.insert(rc_parts, part) end
+			face_part = get_straight(face_part, SMODS.four_fingers('straight'), SMODS.shortcut(), SMODS.wrap_around_straight())
+			if #face_part > 0 then
+				table.insert(rc_parts, part)
+			end
 		end
 
-		return parts._straight
+		return rc_parts
 	end,
 })
 
@@ -159,16 +161,15 @@ SMODS.PokerHand({
 		if not next(parts.abn_spectrum) then return {} end
 		local parts_photonic = {}
 		for _, part in ipairs(parts.abn_spectrum) do
-			local all_aa = true
+			local aas = 0
 			local new_part = {}
 			for _, card in ipairs(part) do
-				if SMODS.has_no_rank(card) or card.base.value ~= "cutout_AA" then
-					all_aa = false
-					break
+				if not SMODS.has_no_rank(card) and card.base.value == "cutout_AA" then
+					aas = aas + 1
 				end
 				table.insert(new_part, part)
 			end
-			if all_aa then table.insert(parts_photonic, new_part) end
+			if aas >= 5 then table.insert(parts_photonic, new_part) end
 		end
 		return parts_photonic
 	end,
